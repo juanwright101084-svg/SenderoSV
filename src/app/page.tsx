@@ -17,23 +17,26 @@ export default async function HomePage() {
         <p className="mx-auto mt-4 max-w-xl text-lg text-stone-300">
           Rutas y miradores de El Salvador, con distancia, dificultad y duración.
         </p>
-        <a
-          href="#rutas"
+        
+                    <a href="#rutas"
           className="mt-8 inline-block rounded-full bg-teal-600 px-8 py-3 font-semibold text-white transition hover:bg-teal-500"
         >
           Ver rutas
         </a>
       </section>
 
-      {/* Zonas: por ahora solo se listan aquí. El enlace a /zonas/[slug] lo construyes tú en el Reto. */}
       <section id="zonas" className="scroll-mt-8">
         <h2 className="mb-6 text-2xl font-bold text-stone-50">Zonas</h2>
         <div className="grid gap-4 sm:grid-cols-3">
           {zonas.map((z) => (
-            <div key={z.id} className="rounded-2xl border border-neutral-800 bg-neutral-900 p-6">
+            <Link
+              key={z.id}
+              href={`/zonas/${z.slug}`}
+              className="rounded-2xl border border-neutral-800 bg-neutral-900 p-6 transition hover:-translate-y-1 hover:border-neutral-700"
+            >
               <h3 className="text-lg font-bold text-stone-50">{z.nombre}</h3>
               <p className="mt-1 text-sm text-stone-400">{z.descripcion}</p>
-            </div>
+            </Link>
           ))}
         </div>
       </section>

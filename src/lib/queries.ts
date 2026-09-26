@@ -37,5 +37,27 @@ export const getRutaById = cache(async (id: number): Promise<Ruta | null> => {
   return data;
 });
 
-// RETO: aquí abajo tú vas a agregar getZonaBySlug() y getRutasByZona().
-// Revisa el enunciado del Reto en la guía para ver la firma exacta que necesitas.
+// Devuelve la zona que tiene ese slug, o null si no existe
+export const getZonaBySlug = cache(async (slug: string): Promise<Zona | null> => {
+  const { data, error } = await supabase
+    .from("zonas")
+    .select("*")
+    .eq("slug", slug)
+    .maybeSingle<Zona>();
+
+  if (error) throw new Error(`Error al buscar la zona: ${error.message}`);
+  return data;
+});
+
+// Devuelve las rutas de una zona, ordenadas por nombre
+export const getRutasByZona = cache(async (zonaId: number): Promise<Ruta[]> => {
+  const { data, error } = await supabase
+    .from("rutas")
+    .select(RUTA_SELECT)
+    .eq("zona_id", zonaId)
+    .order("nombre")
+    .overrideTypes<Ruta[], { merge: false }>();
+
+  if (error) throw new Error(`No se pudieron cargar las rutas de la zona: ${error.message}`);
+  return data;
+});
